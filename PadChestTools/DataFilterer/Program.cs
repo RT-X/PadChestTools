@@ -51,8 +51,15 @@
                     string sourcePath = $"{inputDataDirectory}\\{image.imageDir}\\{image.imageID}";
                     string outputPath = $"{outputDataDirectory}\\{image.condition}\\{image.patientID}\\{image.projection}\\{image.imageID}";
 
-                    Directory.CreateDirectory($"{outputDataDirectory}\\{image.condition}\\{image.patientID}\\{image.projection}");
-                    File.Copy(sourcePath, outputPath);
+                    if (File.Exists(sourcePath))
+                    {
+                        Directory.CreateDirectory($"{outputDataDirectory}\\{image.condition}\\{image.patientID}\\{image.projection}");
+                        File.Copy(sourcePath, outputPath);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"WARN: Could not find image {image.imageID} at {sourcePath}");
+                    }
                 }
                 Console.WriteLine($"Finished copying images for {conditionImagesSet.Key}");
             }
